@@ -4,7 +4,7 @@ exports.config = {
 
     // Selenium grid
       directConnect: false,
-      seleniumAddress: 'http://selenium-hub:4444/wd/hub',
+      seleniumAddress: 'http://zalenium:4444/wd/hub',
 
     // To get the awesome Serenity BDD reports, replace this entry:
     // frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -30,7 +30,7 @@ exports.config = {
     multiCapabilities:  [{
     //     browserName: 'firefox'
     // }, {
-        browserName: 'chrome'
+        browserName: 'firefox'
     }],
 
         // execute tests using 2 browsers running in parallel
