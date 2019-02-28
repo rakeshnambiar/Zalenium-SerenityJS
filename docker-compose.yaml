@@ -1,0 +1,45 @@
+version: "3"
+services:
+    zalenium:
+        image: "dosel/zalenium"
+        container_name: zalenium
+        hostname: zalenium
+        tty: true
+        volumes:
+          #- /tmp/videos:/home/seluser/videos
+          - ./script/target/:/home/seluser/videos
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /usr/bin/docker:/usr/bin/docker
+        ports:
+          - 4444:4444
+        command: >
+           start --desiredContainers 4
+                 --maxDockerSeleniumContainers 4
+                 --screenWidth 1920 --screenHeight 1080
+                 --timeZone "Europe/Berlin"
+                 --videoRecordingEnabled true
+                 --sauceLabsEnabled false
+                 --browserStackEnabled false
+                 --testingBotEnabled false
+                 --startTunnel false
+        #environment:
+            #- HOST_UID
+            #- HOST_GID
+            #- SAUCE_USERNAME
+            #- SAUCE_ACCESS_KEY
+            #- BROWSER_STACK_USER
+            #- BROWSER_STACK_KEY
+            #- TESTINGBOT_KEY
+            #- TESTINGBOT_SECRET
+    nodeSetup:
+        image: timbru31/java-node:8
+        volumes:
+          - ./script:/usr/src/script
+        working_dir: /usr/src/script
+        command:
+          - sh
+          - '-c'
+#         - 'npm install && npm run e2e -- --tag ${TEST_TAG} --browser ${TEST_BROWSER} --baseUrl ${TEST_URL}'
+          - 'npm install && npm test'
+        ports:
+          - 7070:7070
